@@ -1,0 +1,29 @@
+scenario
+{
+    labels {
+    }
+
+    static int players = 0;
+
+    run_once {
+        players = num_players();
+    }
+
+    for (i = 1; i <= players; i++) {
+        int num = num_units_killed(i);
+        if (num != 0 && num % 10 == 0) {
+            bool needsMsg = false;
+            for (j = 0; j < num_military_units(i); j++) {
+                int id = find_all_military(i);
+                int health = object_health(i, id);
+                if (health >= 90) {
+                    needsMsg = true;
+                    set_object_health(i, id, 30);
+                }
+            }
+            if (needsMsg) {
+                print_game_msg(find_nation(i) + " killed too much...");
+            }
+        }
+    }
+}
