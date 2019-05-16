@@ -1,0 +1,30 @@
+scenario
+{
+    labels {
+    }
+
+    static int players = 0;
+    static int dying_player = 0;
+    static int resources = 5000;
+
+    run_once {
+        players = num_players();
+    }
+
+    for (i = 1; i <= players; i++) {
+        int num = num_cities(i);
+        if (city_captured(i, "") && num == 1) {
+            dying_player = i;
+        }
+        if (num == 2 && dying_player == i) {
+            print_game_msg(find_nation(i) + " is back!");
+            give_good(i, "Food", resources);
+            give_good(i, "Timber", resources);
+            give_good(i, "Wealth", resources);
+            give_good(i, "Knowledge", resources);
+            give_good(i, "Metal", resources);
+            give_good(i, "Oil", resources);
+            dying_player = 0;
+        }
+    }
+}
