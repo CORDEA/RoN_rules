@@ -1,0 +1,22 @@
+scenario
+{
+    labels {
+    }
+
+    static int players = 0;
+
+    run_once {
+        players = num_players();
+    }
+
+    for (i = 1; i <= players; i++) {
+        int num = num_units_killed(i);
+        for (j = 0; j < num_military_units(i); j++) {
+            int id = find_all_military(i);
+            int health = object_health(i, id);
+            if (health >= 90) {
+                set_object_health(i, id, 10);
+            }
+        }
+    }
+}
